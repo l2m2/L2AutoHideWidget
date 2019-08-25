@@ -1,10 +1,15 @@
-#include "mainwindow.h"
 #include <QApplication>
+#include "l2mainwindow.h"
+#include "l2framelessmainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+#if 1
+    L2FramelessMainWindow w;
+#else
+    L2MainWindow w;
+#endif
     w.resize(400, 600);
     w.show();
 

@@ -1,13 +1,13 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "l2mainwindow.h"
+#include "ui_l2mainwindow.h"
 #include <QDebug>
 #include <QScreen>
 #include <QPropertyAnimation>
 #include <QMoveEvent>
 
-MainWindow::MainWindow(QWidget *parent) :
+L2MainWindow::L2MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::L2MainWindow)
 {
     ui->setupUi(this);
 
@@ -18,21 +18,21 @@ MainWindow::MainWindow(QWidget *parent) :
     mScreenWidth = QApplication::primaryScreen()->geometry().width();
 }
 
-MainWindow::~MainWindow()
+L2MainWindow::~L2MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::leaveEvent(QEvent *event)
+void L2MainWindow::leaveEvent(QEvent *event)
 {
     if (!this->frameGeometry().contains(QCursor::pos())) {
         bool shouldHide = false;
         if (mDirection == Direction::Up)  {
-            shouldHide = (this->y() <= mSpacingToEdge);
+            shouldHide = (this->y() <= 0);
         } else if (mDirection == Direction::Left) {
-            shouldHide = (this->x() <= mSpacingToEdge);
+            shouldHide = (this->x() <= 0);
         } else if (mDirection == Direction::Right) {
-            shouldHide = (this->x() >= (mScreenWidth - this->frameGeometry().width() - mSpacingToEdge));
+            shouldHide = (this->x() >= (mScreenWidth - this->frameGeometry().width()));
         }
         if (shouldHide) {
             hideWidget();
@@ -44,75 +44,80 @@ void MainWindow::leaveEvent(QEvent *event)
     QWidget::leaveEvent(event);
 }
 
-void MainWindow::enterEvent(QEvent *event)
+void L2MainWindow::enterEvent(QEvent *event)
 {
     if (mHideFlag) {
         showWidget();
-        mHideFlag = false;
     }
     QWidget::enterEvent(event);
 }
 
-void MainWindow::moveEvent(QMoveEvent *event)
+void L2MainWindow::moveEvent(QMoveEvent *event)
 {
     if (qApp->mouseButtons() == Qt::LeftButton) {
-        if (this->y() < mSpacingToEdge) {
+        if (this->y() < 0) {
             mDirection = Direction::Up;
-            move(this->x(), mSpacingToEdge);
+            move(this->x(), 0);
         }
-        if (this->x() < mSpacingToEdge) {
+        if (this->x() < 0) {
             mDirection = Direction::Left;
-            move(mSpacingToEdge, y());
+            move(0, this->y());
         }
-        if (this->x() > (mScreenWidth - this->frameGeometry().width() - mSpacingToEdge))  {
+        if (this->x() > (mScreenWidth - this->frameGeometry().width()))  {
             mDirection = Direction::Right;
-            move(mScreenWidth-this->width(), y());
+            move(mScreenWidth-this->width(), this->y());
         }
     }
     QWidget::moveEvent(event);
 }
 
-void MainWindow::hideWidget()
+void L2MainWindow::hideWidget()
 {
+    QPoint startPos = this->pos();
+    QPoint endPos;
+    if (mDirection == Direction::Up) {
+        endPos = QPoint(this->x(), -this->frameGeometry().height() + 2);
+    } else if (mDirection == Direction::Left) {
+        endPos = QPoint(-this->frameGeometry().width() + 2, this->y());
+    } else if (mDirection == Direction::Right) {
+        endPos = QPoint(mScreenWidth - 2, this->y());
+    }
+    if (startPos == endPos) {
+        return;
+    }
     if (mAnim == nullptr) {
         mAnim = new QPropertyAnimation(this, "pos", this);
     }
     mAnim->setDuration(200);
-    mAnim->setStartValue(this->pos());
-    QPoint endPos;
-    if (mDirection == Direction::Up) {
-        endPos = QPoint(this->x(), -this->frameGeometry().height() + mSpacingToEdge);
-    } else if (mDirection == Direction::Left) {
-        endPos = QPoint(-this->frameGeometry().width() + mSpacingToEdge, this->y());
-    } else if (mDirection == Direction::Right) {
-        endPos = QPoint(mScreenWidth - mSpacingToEdge, this->y());
-    }
+    mAnim->setStartValue(startPos);
     mAnim->setEndValue(endPos);
-
     mAnim->start();
 }
 
-void MainWindow::showWidget()
+void L2MainWindow::showWidget()
 {
+    QPoint startPos = this->pos();
+    QPoint endPos;
+    if (mDirection == Direction::Up) {
+        endPos = QPoint(this->x(), 0);
+    } else if (mDirection == Direction::Left) {
+        endPos = QPoint(0, this->y());
+    } else if (mDirection == Direction::Right) {
+        endPos = QPoint(mScreenWidth - this->frameGeometry().width(), this->y());
+    }
+    if (startPos == endPos) {
+        return;
+    }
     if (mAnim == nullptr) {
         mAnim = new QPropertyAnimation(this, "pos", this);
     }
     mAnim->setDuration(200);
-    mAnim->setStartValue(this->pos());
-
-    QPoint endPos;
-    if (mDirection == Direction::Up) {
-        endPos = QPoint(this->x(), mSpacingToEdge);
-    } else if (mDirection == Direction::Left) {
-        endPos = QPoint(mSpacingToEdge, this->y());
-    } else if (mDirection == Direction::Right) {
-        endPos = QPoint(mScreenWidth - this->frameGeometry().width() - mSpacingToEdge, this->y());
-    }
+    mAnim->setStartValue(startPos);
     mAnim->setEndValue(endPos);
     mAnim->start();
 }
 
-void MainWindow::on_actionClose_triggered()
+void L2MainWindow::on_actionClose_triggered()
 {
     qApp->quit();
 }

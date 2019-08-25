@@ -25,16 +25,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+        l2framelessmainwindow.cpp \
+        l2mainwindow.cpp \
+        l2windowtitlebar.cpp \
+        main.cpp
 
 HEADERS += \
-        mainwindow.h
+        l2framelessmainwindow.h \
+        l2mainwindow.h \
+        l2windowtitlebar.h
 
 FORMS += \
-        mainwindow.ui
+        l2framelessmainwindow.ui \
+        l2mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc

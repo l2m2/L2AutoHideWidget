@@ -6,10 +6,10 @@
 class QPropertyAnimation;
 
 namespace Ui {
-class MainWindow;
+class L2MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class L2MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
@@ -19,8 +19,8 @@ public:
         Right
     };
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit L2MainWindow(QWidget *parent = nullptr);
+    ~L2MainWindow();
 
 protected:
     void leaveEvent(QEvent *event);
@@ -35,9 +35,8 @@ private:
     void showWidget();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::L2MainWindow *ui;
     int mScreenWidth;
-    int mSpacingToEdge = 2;
     Direction mDirection;
     bool mHideFlag = false;
     QPropertyAnimation *mAnim = nullptr;

@@ -4,19 +4,39 @@
 #include <QMainWindow>
 
 namespace Ui {
-class FramelessMainWindow;
+class L2FramelessMainWindow;
 }
 
-class FramelessMainWindow : public QMainWindow
+class QPropertyAnimation;
+
+class L2FramelessMainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
-    explicit FramelessMainWindow(QWidget *parent = nullptr);
-    ~FramelessMainWindow();
+    enum Direction {
+        Up = 0,
+        Left,
+        Right
+    };
+public:
+    explicit L2FramelessMainWindow(QWidget *parent = nullptr);
+    ~L2FramelessMainWindow();
+
+protected:
+    void leaveEvent(QEvent *event);
+    void enterEvent(QEvent *event);
+    void moveEvent(QMoveEvent *event);
 
 private:
-    Ui::FramelessMainWindow *ui;
+    void hideWidget();
+    void showWidget();
+
+private:
+    Ui::L2FramelessMainWindow *ui;
+    int mScreenWidth;
+    Direction mDirection;
+    bool mHideFlag = false;
+    QPropertyAnimation *mAnim = nullptr;
 };
 
 #endif // FRAMELESSMAINWINDOW_H

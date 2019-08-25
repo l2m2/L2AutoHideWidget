@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>L2MainWindow</class>
+ <widget class="QMainWindow" name="L2MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -18,6 +18,24 @@
     <string notr="true">
 background-color: rgb(99, 149, 149);</string>
    </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Agency FB</family>
+        <pointsize>72</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>L2</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
