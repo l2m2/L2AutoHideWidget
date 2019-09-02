@@ -85,13 +85,11 @@ void L2MainWindow::hideWidget()
     if (startPos == endPos) {
         return;
     }
-    if (mAnim == nullptr) {
-        mAnim = new QPropertyAnimation(this, "pos", this);
-    }
-    mAnim->setDuration(200);
-    mAnim->setStartValue(startPos);
-    mAnim->setEndValue(endPos);
-    mAnim->start();
+    QPropertyAnimation *anim = new QPropertyAnimation(this, "pos", this);
+    anim->setDuration(200);
+    anim->setStartValue(startPos);
+    anim->setEndValue(endPos);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void L2MainWindow::showWidget()
@@ -108,13 +106,11 @@ void L2MainWindow::showWidget()
     if (startPos == endPos) {
         return;
     }
-    if (mAnim == nullptr) {
-        mAnim = new QPropertyAnimation(this, "pos", this);
-    }
-    mAnim->setDuration(200);
-    mAnim->setStartValue(startPos);
-    mAnim->setEndValue(endPos);
-    mAnim->start();
+    QPropertyAnimation *anim = new QPropertyAnimation(this, "pos", this);
+    anim->setDuration(200);
+    anim->setStartValue(startPos);
+    anim->setEndValue(endPos);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void L2MainWindow::on_actionClose_triggered()

@@ -7,8 +7,6 @@ namespace Ui {
 class L2FramelessMainWindow;
 }
 
-class QPropertyAnimation;
-
 class L2FramelessMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -36,7 +34,6 @@ private:
     int mScreenWidth;
     Direction mDirection;
     bool mHideFlag = false;
-    QPropertyAnimation *mAnim = nullptr;
 };
 
 #endif // FRAMELESSMAINWINDOW_H

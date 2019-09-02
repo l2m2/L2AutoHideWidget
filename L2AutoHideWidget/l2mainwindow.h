@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 
-class QPropertyAnimation;
-
 namespace Ui {
 class L2MainWindow;
 }
@@ -39,7 +37,6 @@ private:
     int mScreenWidth;
     Direction mDirection;
     bool mHideFlag = false;
-    QPropertyAnimation *mAnim = nullptr;
 };
 
 #endif // MAINWINDOW_H
