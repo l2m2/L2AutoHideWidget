@@ -87,6 +87,7 @@ void L2FramelessMainWindow::hideWidget()
     anim->setDuration(200);
     anim->setStartValue(startPos);
     anim->setEndValue(endPos);
+    anim->setEasingCurve(QEasingCurve::InQuad);
     anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
@@ -108,5 +109,6 @@ void L2FramelessMainWindow::showWidget()
     anim->setDuration(200);
     anim->setStartValue(startPos);
     anim->setEndValue(endPos);
+    anim->setEasingCurve(QEasingCurve::OutQuad);
     anim->start(QAbstractAnimation::DeleteWhenStopped);
 }

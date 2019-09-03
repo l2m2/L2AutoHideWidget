@@ -7,6 +7,8 @@ namespace Ui {
 class L2MainWindow;
 }
 
+class QTimer;
+
 class L2MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -21,12 +23,11 @@ public:
     ~L2MainWindow();
 
 protected:
-    void leaveEvent(QEvent *event);
-    void enterEvent(QEvent *event);
     void moveEvent(QMoveEvent *event);
 
 private slots:
     void on_actionClose_triggered();
+    void onTimeout();
 
 private:
     void hideWidget();
@@ -37,6 +38,8 @@ private:
     int mScreenWidth;
     Direction mDirection;
     bool mHideFlag = false;
+    bool mIsMoving = false;
+    QTimer *mTimer = nullptr;
 };
 
 #endif // MAINWINDOW_H

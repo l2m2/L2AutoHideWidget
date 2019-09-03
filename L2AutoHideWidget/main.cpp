@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-#if 1
+#if 0
     L2FramelessMainWindow w;
 #else
     L2MainWindow w;
