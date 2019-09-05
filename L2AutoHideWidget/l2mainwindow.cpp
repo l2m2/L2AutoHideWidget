@@ -62,9 +62,11 @@ void L2MainWindow::hideWidget()
     } else if (mDirection == Direction::Right) {
         endPos = QPoint(mScreenWidth - 2, this->y());
     }
+
     if (startPos == endPos) {
         return;
     }
+
     QPropertyAnimation *anim = new QPropertyAnimation(this, "pos", this);
     connect(anim, &QAbstractAnimation::finished, [this](){
         // Note: This function calls setParent() when changing the flags for a window,
@@ -91,6 +93,7 @@ void L2MainWindow::showWidget()
     } else if (mDirection == Direction::Right) {
         endPos = QPoint(mScreenWidth - this->frameGeometry().width(), this->y());
     }
+
     if (startPos == endPos) {
         return;
     }

@@ -80,10 +80,19 @@ void L2FramelessMainWindow::hideWidget()
     } else if (mDirection == Direction::Right) {
         endPos = QPoint(mScreenWidth - 1, this->y());
     }
+
     if (startPos == endPos) {
         return;
     }
+
     QPropertyAnimation *anim = new QPropertyAnimation(this, "pos", this);
+    connect(anim, &QAbstractAnimation::finished, [this](){
+        // Note: This function calls setParent() when changing the flags for a window,
+        // causing the widget to be hidden.
+        // You must call show() to make the widget visible again..
+        setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
+        show();
+    });
     anim->setDuration(200);
     anim->setStartValue(startPos);
     anim->setEndValue(endPos);
@@ -102,9 +111,17 @@ void L2FramelessMainWindow::showWidget()
     } else if (mDirection == Direction::Right) {
         endPos = QPoint(mScreenWidth - this->width(), this->y());
     }
+
     if (startPos == endPos) {
         return;
     }
+
+    // Note: This function calls setParent() when changing the flags for a window,
+    // causing the widget to be hidden.
+    // You must call show() to make the widget visible again..
+    setWindowFlags(this->windowFlags() & ~Qt::WindowStaysOnTopHint);
+    show();
+
     QPropertyAnimation *anim = new QPropertyAnimation(this, "pos", this);
     anim->setDuration(200);
     anim->setStartValue(startPos);
