@@ -23,7 +23,7 @@ public:
     ~L2MainWindow();
 
 protected:
-    void moveEvent(QMoveEvent *event);
+    void moveEvent(QMoveEvent *event) override;
 
 private slots:
     void on_actionClose_triggered();

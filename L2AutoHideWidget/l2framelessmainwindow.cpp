@@ -1,9 +1,11 @@
 #include "l2framelessmainwindow.h"
 #include "ui_l2framelessmainwindow.h"
 #include <QDebug>
+#include <QMessageBox>
+#include <QMoveEvent>
 #include <QScreen>
 #include <QPropertyAnimation>
-#include <QMoveEvent>
+#include "l2dialog.h"
 
 L2FramelessMainWindow::L2FramelessMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,10 +14,20 @@ L2FramelessMainWindow::L2FramelessMainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->windowTitleBar->SetMainWindow(this);
 
+    ui->comboBox->addItems(QStringList{ "A", "B", "C", "D" });
+
     setWindowFlags(Qt::FramelessWindowHint);
+
+#ifdef Q_OS_LINUX
+    setWindowFlags(this->windowFlags() | Qt::X11BypassWindowManagerHint);
+#endif
 
     // 获取屏幕宽度
     mScreenWidth = QApplication::primaryScreen()->geometry().width();
+
+#ifdef Q_OS_LINUX
+    move(pos() + QApplication::primaryScreen()->geometry().center() - this->geometry().center());
+#endif
 }
 
 L2FramelessMainWindow::~L2FramelessMainWindow()
@@ -67,6 +79,14 @@ void L2FramelessMainWindow::moveEvent(QMoveEvent *event)
         }
     }
     QWidget::moveEvent(event);
+}
+
+void L2FramelessMainWindow::showEvent(QShowEvent *event)
+{
+#ifdef Q_OS_LINUX
+    this->activateWindow();
+#endif
+    QWidget::showEvent(event);
 }
 
 void L2FramelessMainWindow::hideWidget()
@@ -128,4 +148,13 @@ void L2FramelessMainWindow::showWidget()
     anim->setEndValue(endPos);
     anim->setEasingCurve(QEasingCurve::OutQuad);
     anim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void L2FramelessMainWindow::on_pushButton_clicked()
+{
+    L2Dialog dialog;
+#ifdef Q_OS_LINUX
+    dialog.setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
+#endif
+    dialog.exec();
 }

@@ -21,9 +21,13 @@ public:
     ~L2FramelessMainWindow();
 
 protected:
-    void leaveEvent(QEvent *event);
-    void enterEvent(QEvent *event);
-    void moveEvent(QMoveEvent *event);
+    void leaveEvent(QEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void moveEvent(QMoveEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     void hideWidget();

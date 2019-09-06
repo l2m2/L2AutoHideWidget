@@ -28,16 +28,19 @@ SOURCES += \
         l2framelessmainwindow.cpp \
         l2mainwindow.cpp \
         l2windowtitlebar.cpp \
-        main.cpp
+        main.cpp \
+    l2dialog.cpp
 
 HEADERS += \
         l2framelessmainwindow.h \
         l2mainwindow.h \
-        l2windowtitlebar.h
+        l2windowtitlebar.h \
+    l2dialog.h
 
 FORMS += \
         l2framelessmainwindow.ui \
-        l2mainwindow.ui
+        l2mainwindow.ui \
+    l2dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
